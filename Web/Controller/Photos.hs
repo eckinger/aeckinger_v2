@@ -12,6 +12,7 @@ instance Controller PhotosController where
         setLayout defaultLayout
 
     action PhotosAction = do
+        setLayout defaultLayout
         photos <- query @Photo |> fetch
         render IndexView { .. }
 

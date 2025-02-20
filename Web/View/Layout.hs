@@ -1,6 +1,6 @@
 module Web.View.Layout (defaultLayout,
                         indexPhotosLayout,
-                        welcomeLayout,
+                        frontLayout,
                         Html) where
 
 import IHP.ViewPrelude
@@ -68,8 +68,8 @@ indexPhotosLayout inner = [hsx|
 </html>
 |]
 
-welcomeLayout :: Html -> Html
-welcomeLayout inner = [hsx|
+frontLayout :: Html -> Html
+frontLayout inner = [hsx|
 <!DOCTYPE html>
 <html lang="en">
     <head>
