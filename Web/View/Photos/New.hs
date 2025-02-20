@@ -17,9 +17,9 @@ instance View NewView where
 
 renderForm :: Photo -> Html
 renderForm photo = formFor photo [hsx|
-    {(textField #date)}
+    {(dateField #date)}
     {(textField #caption)}
-    {(textField #photoUrl)}
+    {(fileField #photoUrl) { additionalAttributes = [("accept", "image/*")]} }
     {submitButton}
 
 |]

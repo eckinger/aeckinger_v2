@@ -13,7 +13,7 @@ instance View WelcomeView where
 
             <div class="flex flex-col items-center space-y-5">
 
-                <a class="relative" href="">
+                <a class="relative" href={PhotosAction}>
                     <span class={buttonShadowClasses}></span>
                     <span class={buttonBorderClasses}>Photography</span>
                 </a>

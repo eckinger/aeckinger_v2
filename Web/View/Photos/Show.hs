@@ -8,6 +8,7 @@ instance View ShowView where
         {breadcrumb}
         <h1>Show Photo</h1>
         <p>{photo}</p>
+        <img src={photo.photoUrl}>
 
     |]
         where

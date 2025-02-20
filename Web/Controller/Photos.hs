@@ -5,8 +5,12 @@ import Web.View.Photos.Index
 import Web.View.Photos.New
 import Web.View.Photos.Edit
 import Web.View.Photos.Show
+import Web.View.Layout
 
 instance Controller PhotosController where
+    beforeAction = do
+        setLayout defaultLayout
+
     action PhotosAction = do
         photos <- query @Photo |> fetch
         render IndexView { .. }
@@ -38,7 +42,8 @@ instance Controller PhotosController where
         let photo = newRecord @Photo
         photo
             |> buildPhoto
-            |> ifValid \case
+            |> uploadToStorage #photoUrl
+            >>= ifValid \case
                 Left photo -> render NewView { .. } 
                 Right photo -> do
                     photo <- photo |> createRecord
@@ -53,3 +58,4 @@ instance Controller PhotosController where
 
 buildPhoto photo = photo
     |> fill @'["date", "caption", "photoUrl"]
+    |> validateField #date nonEmpty
