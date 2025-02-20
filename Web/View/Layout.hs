@@ -42,6 +42,7 @@ indexPhotosLayout inner = [hsx|
     {scripts}
     {indexPhotosScripts}
 
+
     <header class="flex w-full overflow-hidden pt-10 pb-1">
         <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
             <div class="mr-4 md:mr-8">
@@ -49,6 +50,8 @@ indexPhotosLayout inner = [hsx|
             </div>
         </div>
     </header>
+
+    <div class="pt-10 pb-8"></div>
 
     <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 animate-fade-in transition duration-500 opacity-100">
         <div class="container mx-auto">
@@ -155,10 +158,14 @@ metaTags = [hsx|
 indexPhotosScripts :: Html
 indexPhotosScripts = [hsx|
     <script src="/photos.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Start - Fancybox Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+        Fancybox.bind("[data-fancybox]", {});
+    </script>
     <!-- End - Fancybox Scripts -->
 |]
 
