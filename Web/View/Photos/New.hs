@@ -1,5 +1,6 @@
 module Web.View.Photos.New where
 import Web.View.Prelude
+import Text.Blaze.Html4.FrameSet (input)
 
 data NewView = NewView { photo :: Photo }
 
@@ -19,7 +20,17 @@ renderForm :: Photo -> Html
 renderForm photo = formFor photo [hsx|
     {(dateField #date)}
     {(textField #caption)}
-    {(fileField #photoUrl) { additionalAttributes = [("accept", "image/*")]} }
+
+    <div class="file-upload-wrapper">
+        {(fileField #photoUrl)
+            { additionalAttributes = [
+                ("accept", "image/*"), ("data-preview", "#photoUrlPreview")
+            ]}
+        }
+
+        <img id="photoUrlPreview"/>
+    </div>
+
     {submitButton}
 
 |]
