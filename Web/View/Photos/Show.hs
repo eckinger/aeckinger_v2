@@ -1,5 +1,6 @@
 module Web.View.Photos.Show where
 import Web.View.Prelude
+import Web.View.Layout
 
 data ShowView = ShowView { photo :: Photo }
 

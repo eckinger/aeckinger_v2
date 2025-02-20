@@ -1,4 +1,7 @@
-module Web.View.Layout (defaultLayout, photoBackgroundLayout, Html) where
+module Web.View.Layout (defaultLayout,
+                        indexPhotosLayout,
+                        welcomeLayout,
+                        Html) where
 
 import IHP.ViewPrelude
 import IHP.Environment
@@ -29,11 +32,48 @@ defaultLayout inner = [hsx|
 </html>
 |]
 
-photoBackgroundLayout :: Html -> Html
-photoBackgroundLayout inner = [hsx|
+indexPhotosLayout :: Html -> Html
+indexPhotosLayout inner = [hsx|
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+    {indexPhotosMetaTags}
+    {stylesheets}
+    {fonts}
+    {scripts}
+    {indexPhotosScripts}
+
+    <header class="flex w-full overflow-hidden pt-10 pb-1">
+        <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
+            <div class="mr-4 md:mr-8">
+                <a class="text-2xl font-signika font-bold" href="/">ALEXANDER ECKINGER</a>
+            </div>
+        </div>
+    </header>
+
+    <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 animate-fade-in transition duration-500 opacity-100">
+        <div class="container mx-auto">
+            <section class="text-neutral-700">
+                <div class="container w-full">
+                    <div class="flex flex-wrap w-full">
+                        {renderFlashMessages}
+                        {inner}
+                    </div>
+                </div>
+            </section>
+       </div>
+    </body>
+</html>
+|]
+
+welcomeLayout :: Html -> Html
+welcomeLayout inner = [hsx|
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {metaTags}
+        {stylesheets}
+        {scripts}
+
         <style>
             body {
                 background-image: url("/photo_background.webp");
@@ -41,9 +81,6 @@ photoBackgroundLayout inner = [hsx|
                 background-position: center;
             }
         </style>
-        {metaTags}
-        {stylesheets}
-        {scripts}
     </head>
     <body>
         {renderFlashMessages}
@@ -76,6 +113,12 @@ stylesheets = [hsx|
         <link rel="stylesheet" href={assetPath "/vendor/flatpickr.min.css"}/>
         <link rel="stylesheet" href={assetPath "/app.css"}/>
     |]
+fonts :: Html
+fonts = [hsx|
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;700&amp;display=swap" rel="stylesheet">
+|]
 
 scripts :: Html
 scripts = [hsx|
@@ -92,6 +135,7 @@ scripts = [hsx|
         <script src={assetPath "/app.js"}></script>
     |]
 
+
 devScripts :: Html
 devScripts = [hsx|
         <script id="livereload-script" src={assetPath "/livereload.js"} data-ws={liveReloadWebsocketUrl}></script>
@@ -105,5 +149,23 @@ metaTags = [hsx|
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="TODO"/>
     <meta property="og:description" content="TODO"/>
+    {autoRefreshMeta}
+|]
+
+indexPhotosScripts :: Html
+indexPhotosScripts = [hsx|
+    <script src="/photos.js"></script>
+    <!-- Start - Fancybox Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- End - Fancybox Scripts -->
+|]
+
+indexPhotosMetaTags :: Html
+indexPhotosMetaTags = [hsx|
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     {autoRefreshMeta}
 |]

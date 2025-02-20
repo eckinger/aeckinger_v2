@@ -2,7 +2,7 @@ module Web.FrontController where
 
 import IHP.RouterPrelude
 import Web.Controller.Prelude
-import Web.View.Layout (defaultLayout, photoBackgroundLayout)
+import Web.View.Layout (defaultLayout, welcomeLayout)
 
 -- Controller Imports
 import Web.Controller.Photos
@@ -17,5 +17,5 @@ instance FrontController WebApplication where
 
 instance InitControllerContext WebApplication where
     initContext = do
-        setLayout photoBackgroundLayout
+        setLayout welcomeLayout
         initAutoRefresh
