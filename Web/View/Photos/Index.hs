@@ -19,10 +19,12 @@ instance View IndexView where
 renderPhoto :: Photo -> Html
 renderPhoto photo = [hsx|
     <div class="overflow-hidden h-min w-full">
-        <a href={photo.photoUrl} data-fancybox="gallery" data-caption={photo.caption}>
+        <a href={photo.photoUrl}
+            data-fancybox="gallery"
+            data-caption={photo.caption}>
             <img src={photo.photoUrl}
                  alt={photo.caption}
-                 class="block object-cover object-center animate-fade-in transition duration-500 transform scale-100 hover:scale-110">
+                 class="block object-cover object-center opacity-0 animate-fade-in transition duration-500 transform scale-100 hover:scale-110">
         </a>
     </div>
 
