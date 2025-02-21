@@ -36,13 +36,15 @@ indexPhotosLayout :: Html -> Html
 indexPhotosLayout inner = [hsx|
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+    <head>
     {indexPhotosMetaTags}
     {stylesheets}
     {fonts}
     {scripts}
     {indexPhotosScripts}
+    </head>
 
-    <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 animate-fade-in transition duration-500 opacity-100">
+    <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 opacity-0 animate-fade-in transition duration-500 opacity-100">
 
         <header class="flex w-full overflow-hidden pt-10 pb-1">
             <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
@@ -66,6 +68,10 @@ indexPhotosLayout inner = [hsx|
             </h1>
        </div>
 
+        <script>
+            Fancybox.bind("[data-fancybox]", {});
+        </script>
+        <script src={assetPath "/photos.js"}></script>
     </body>
 
 </html>
@@ -154,20 +160,17 @@ metaTags = [hsx|
 
 indexPhotosScripts :: Html
 indexPhotosScripts = [hsx|
-    <script src="/photos.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Start - Fancybox Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <!-- End - Fancybox Scripts -->
-    <script>
-        Fancybox.bind("[data-fancybox]", {});
-    </script>
 |]
 
 indexPhotosMetaTags :: Html
 indexPhotosMetaTags = [hsx|
+    {metaTags}
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
