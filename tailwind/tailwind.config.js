@@ -6,6 +6,10 @@ module.exports = {
             colors: {
                 'highlight': '#537D8D',
             },
+            fontFamily: {
+                'nothingyoucoulddo': ['Nothing You Could Do', 'cursive'],
+                'signika': ['Signika', 'sans-serif'],
+            },
         },
     },
     content: [

@@ -42,29 +42,32 @@ indexPhotosLayout inner = [hsx|
     {scripts}
     {indexPhotosScripts}
 
-
-    <header class="flex w-full overflow-hidden pt-10 pb-1">
-        <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
-            <div class="mr-4 md:mr-8">
-                <a class="text-2xl font-signika font-bold" href="/">ALEXANDER ECKINGER</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="pt-10 pb-8"></div>
-
     <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 animate-fade-in transition duration-500 opacity-100">
-        <div class="container mx-auto">
-            <section class="text-neutral-700">
-                <div class="container w-full">
-                    <div class="flex flex-wrap w-full">
-                        {renderFlashMessages}
-                        {inner}
-                    </div>
+
+        <header class="flex w-full overflow-hidden pt-10 pb-1">
+            <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
+                <div class="mr-4 md:mr-8">
+                    <a class="text-2xl font-signika font-bold" href="/">ALEXANDER ECKINGER</a>
                 </div>
-            </section>
+            </div>
+        </header>
+
+
+        <div class="container mx-auto">
+            <h1 class="pt-10 pb-8">
+                <section class="text-neutral-700">
+                    <div class="container w-full">
+                        <div class="flex flex-wrap w-full">
+                            {renderFlashMessages}
+                            {inner}
+                        </div>
+                    </div>
+                </section>
+            </h1>
        </div>
+
     </body>
+
 </html>
 |]
 
@@ -76,6 +79,7 @@ frontLayout inner = [hsx|
         {metaTags}
         {stylesheets}
         {scripts}
+        {fonts}
     </head>
 
     <body class="bg-[url(/photo_background.webp)] bg-cover bg-center">
@@ -129,13 +133,13 @@ scripts = [hsx|
         <script src={assetPath "/helpers.js"}></script>
         <script src={assetPath "/ihp-auto-refresh.js"}></script>
         <script src={assetPath "/app.js"}></script>
-    |]
+|]
 
 
 devScripts :: Html
 devScripts = [hsx|
         <script id="livereload-script" src={assetPath "/livereload.js"} data-ws={liveReloadWebsocketUrl}></script>
-    |]
+|]
 
 metaTags :: Html
 metaTags = [hsx|
@@ -156,10 +160,10 @@ indexPhotosScripts = [hsx|
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- End - Fancybox Scripts -->
     <script>
         Fancybox.bind("[data-fancybox]", {});
     </script>
-    <!-- End - Fancybox Scripts -->
 |]
 
 indexPhotosMetaTags :: Html

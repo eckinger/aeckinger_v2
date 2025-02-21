@@ -8,8 +8,11 @@ instance View IndexView where
         setLayout indexPhotosLayout
 
     html IndexView { .. } = [hsx|
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 p-8">
-            {forEach photos renderPhoto}
+        <div class="flex flex-wrap w-full">
+            <!-- https://play.tailwindcss.com/D46qDJ4mxn -->
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-2 space-y-2">
+                {forEach photos renderPhoto}
+            </div>
         </div>
     |]
 
