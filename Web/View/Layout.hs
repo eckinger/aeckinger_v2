@@ -76,16 +76,9 @@ frontLayout inner = [hsx|
         {metaTags}
         {stylesheets}
         {scripts}
-
-        <style>
-            body {
-                background-image: url("/photo_background.webp");
-                background-size: cover;
-                background-position: center;
-            }
-        </style>
     </head>
-    <body>
+
+    <body class="bg-[url(/photo_background.webp)] bg-cover bg-center">
         {renderFlashMessages}
         {inner}
         
