@@ -88,7 +88,7 @@ frontLayout inner = [hsx|
         {fonts}
     </head>
 
-    <body class="bg-[url(/photo_background.webp)] bg-cover bg-center">
+    <body class="bg-[url(/photo_background.webp)] bg-cover bg-center bg-black">
         {renderFlashMessages}
         {inner}
         
