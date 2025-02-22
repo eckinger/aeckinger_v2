@@ -17,7 +17,7 @@ instance View EditView where
 
 renderForm :: Photo -> Html
 renderForm photo = formFor photo [hsx|
-    {(textField #date)}
+    {(textField #photoDate)}
     {(textField #caption)}
     {(textField #photoUrl)}
     {submitButton}

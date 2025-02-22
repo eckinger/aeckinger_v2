@@ -18,7 +18,7 @@ instance View NewView where
 
 renderForm :: Photo -> Html
 renderForm photo = formFor photo [hsx|
-    {(dateField #date)}
+    {(dateField #photoDate)}
     {(textField #caption)}
 
     <div class="file-upload-wrapper">

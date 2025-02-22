@@ -58,5 +58,5 @@ instance Controller PhotosController where
       redirectTo PhotosAction
 
 buildPhoto photo = photo
-  |> fill @'["date", "caption", "photoUrl"]
-  |> validateField #date nonEmpty
+  |> fill @'["photoDate", "caption", "photoUrl"]
+  |> validateField #photoDate nonEmpty

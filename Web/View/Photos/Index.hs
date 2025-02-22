@@ -13,10 +13,13 @@ instance View IndexView where
             <div class="columns-1 md:columns-2 lg:columns-3 gap-2 space-y-2">
                 {
                   forEach
-                    -- Turn [Photo] into [[Photo]] where each list is Photos of the same date
-                    (groupBy (\pic1 pic2 -> pic1.date == pic2.date) 
-                      -- But first order all the photos by date (descending)
-                      (sortBy (\pic1 pic2 -> compare (Down pic1.date) (Down pic2.date)) photos))
+
+                    -- Turn [Photo] into [[Photo]] where each list is Photos of the same photoDate
+                    (groupBy (\pic1 pic2 -> pic1.photoDate == pic2.photoDate) $
+                      -- But first order all the photos by photoDate (descending)
+                      sortBy (comparing $ Down . photoDate) photos)
+
+                    -- So we get batches of same-date photos
                     renderPhotos
                 }
             </div>
@@ -25,7 +28,7 @@ instance View IndexView where
 
 renderPhotos :: [Photo] -> Html
 renderPhotos photos = [hsx|
-  {forEach photos renderPhoto}
+    {forEach photos renderPhoto}
 |]
 -- this case is impossible since there can be no photo without a corresponding date
 
