@@ -13,6 +13,11 @@ instance View WelcomeView where
 
             <div class="flex flex-col items-center space-y-5">
 
+                <a class="relative" href="">
+                    <span class={buttonShadowClasses}></span>
+                    <span class={buttonBorderClasses}>Quotes & Proverbs</span>
+                </a>
+
                 <a class="relative" href={PhotosAction}>
                     <span class={buttonShadowClasses}></span>
                     <span class={buttonBorderClasses}>Photography</span>
@@ -28,7 +33,7 @@ instance View WelcomeView where
                     <span class={buttonBorderClasses}>Writing</span>
                 </a>
 
-                <a class="relative" href="">
+                <a class="relative" href={WorkAction}>
                     <span class={buttonShadowClasses}></span>
                     <span class={buttonBorderClasses}>Work</span>
                 </a>

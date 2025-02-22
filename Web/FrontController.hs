@@ -11,6 +11,7 @@ import Web.Controller.Static
 instance FrontController WebApplication where
     controllers = 
         [ startPage WelcomeAction
+        , parseRoute @StaticController
         -- Generator Marker
         , parseRoute @PhotosController
         ]
