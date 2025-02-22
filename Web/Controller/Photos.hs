@@ -1,62 +1,62 @@
 module Web.Controller.Photos where
 
-import Web.Controller.Prelude
-import Web.View.Photos.Index
-import Web.View.Photos.New
-import Web.View.Photos.Edit
-import Web.View.Photos.Show
-import Web.View.Layout
+import           Web.Controller.Prelude
+import           Web.View.Layout
+import           Web.View.Photos.Edit
+import           Web.View.Photos.Index
+import           Web.View.Photos.New
+import           Web.View.Photos.Show
 
 instance Controller PhotosController where
-    beforeAction = do
-        setLayout defaultLayout
+  beforeAction = do
+    setLayout defaultLayout
 
-    action PhotosAction = do
-        setLayout defaultLayout
-        photos <- query @Photo |> fetch
-        render IndexView { .. }
+  action PhotosAction = do
+    photos <- query @Photo
+      |> fetch
+    render IndexView { .. }
 
-    action NewPhotoAction = do
-        let photo = newRecord
-        render NewView { .. }
+  action NewPhotoAction = do
+      let photo = newRecord
+      render NewView { .. }
 
-    action ShowPhotoAction { photoId } = do
-        photo <- fetch photoId
-        render ShowView { .. }
+  action ShowPhotoAction { photoId } = do
+      photo <- fetch photoId
+      render ShowView { .. }
 
-    action EditPhotoAction { photoId } = do
-        photo <- fetch photoId
-        render EditView { .. }
+  action EditPhotoAction { photoId } = do
+      photo <- fetch photoId
+      render EditView { .. }
 
-    action UpdatePhotoAction { photoId } = do
-        photo <- fetch photoId
-        photo
-            |> buildPhoto
-            |> ifValid \case
-                Left photo -> render EditView { .. }
-                Right photo -> do
-                    photo <- photo |> updateRecord
-                    setSuccessMessage "Photo updated"
-                    redirectTo EditPhotoAction { .. }
+  action UpdatePhotoAction { photoId } = do
+      photo <- fetch photoId
+      photo
+          |> buildPhoto
+          |> ifValid \case
+              Left photo -> render EditView { .. }
+              Right photo -> do
+                  photo <- photo |> updateRecord
+                  setSuccessMessage "Photo updated"
+                  redirectTo EditPhotoAction { .. }
 
-    action CreatePhotoAction = do
-        let photo = newRecord @Photo
-        photo
-            |> buildPhoto
-            |> uploadToStorage #photoUrl
-            >>= ifValid \case
-                Left photo -> render NewView { .. } 
-                Right photo -> do
-                    photo <- photo |> createRecord
-                    setSuccessMessage "Photo created"
-                    redirectTo PhotosAction
+  action CreatePhotoAction = do
+      let photo = newRecord @Photo
+      photo
+          |> buildPhoto
+          |> uploadToStorage #photoUrl
+          >>= ifValid \case
+              Left photo -> render NewView { .. }
+              Right photo -> do
+                  photo <- photo |> createRecord
+                  setSuccessMessage "Photo created"
+                  redirectTo PhotosAction
 
-    action DeletePhotoAction { photoId } = do
-        photo <- fetch photoId
-        deleteRecord photo
-        setSuccessMessage "Photo deleted"
-        redirectTo PhotosAction
+  action DeletePhotoAction { photoId } = do
+      photo <- fetch photoId
+      deleteRecord photo
+      setSuccessMessage "Photo deleted"
+      redirectTo PhotosAction
 
 buildPhoto photo = photo
-    |> fill @'["date", "caption", "photoUrl"]
-    |> validateField #date nonEmpty
+  |> fill @'["date", "caption", "photoUrl"]
+  |> validateField #date nonEmpty

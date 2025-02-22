@@ -1,15 +1,15 @@
 module Web.FrontController where
 
-import IHP.RouterPrelude
-import Web.Controller.Prelude
-import Web.View.Layout (frontLayout)
+import           IHP.RouterPrelude
+import           Web.Controller.Prelude
+import           Web.View.Layout        (frontLayout)
 
 -- Controller Imports
-import Web.Controller.Photos
-import Web.Controller.Static
+import           Web.Controller.Photos
+import           Web.Controller.Static
 
 instance FrontController WebApplication where
-    controllers = 
+    controllers =
         [ startPage WelcomeAction
         , parseRoute @StaticController
         -- Generator Marker

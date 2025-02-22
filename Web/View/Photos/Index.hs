@@ -11,29 +11,45 @@ instance View IndexView where
         <div class="flex flex-wrap w-full">
             <!-- https://play.tailwindcss.com/D46qDJ4mxn -->
             <div class="columns-1 md:columns-2 lg:columns-3 gap-2 space-y-2">
-                {forEach photos renderPhoto}
+                {
+                  forEach
+                    -- Turn [Photo] into [[Photo]] where each list is Photos of the same date
+                    (groupBy (\pic1 pic2 -> pic1.date == pic2.date) 
+                      -- But first order all the photos by date (descending)
+                      (sortBy (\pic1 pic2 -> compare (Down pic1.date) (Down pic2.date)) photos))
+                    renderPhotos
+                }
             </div>
         </div>
     |]
 
+renderPhotos :: [Photo] -> Html
+renderPhotos photos = [hsx|
+  {forEach photos renderPhoto}
+|]
+-- this case is impossible since there can be no photo without a corresponding date
+
 renderPhoto :: Photo -> Html
 renderPhoto photo = [hsx|
     <div class="overflow-hidden h-min w-full">
-<!--    <a href={photo.photoUrl}
+<!--
+        <a href={photo.photoUrl}
             data-fancybox="gallery"
-            data-caption={photo.caption}> -->
+            data-caption={photo.caption}>
+-->
             <img src={photo.photoUrl}
                  alt={photo.caption}
                  class="block object-cover object-center <!--opacity-0--> animate-fade-in transition duration-500 transform scale-100 hover:scale-110">
-<!--    </a>-->
+<!--
+        </a>
+-->
     </div>
-
-    <!--
+<!--
     <tr>
         <td>{photo}</td>
         <td><a href={ShowPhotoAction photo.id}>Show</a></td>
         <td><a href={EditPhotoAction photo.id} class="text-muted">Edit</a></td>
         <td><a href={DeletePhotoAction photo.id} class="js-delete text-muted">Delete</a></td>
     </tr>
-    -->
+-->
 |]
