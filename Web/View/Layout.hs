@@ -44,7 +44,7 @@ indexPhotosLayout inner = [hsx|
     {indexPhotosScripts}
     </head>
 
-    <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 opacity-0 animate-fade-in transition duration-500">
+    <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 <!--opacity-0--> animate-fade-in transition duration-500">
 
         <header class="flex w-full overflow-hidden pt-10 pb-1">
             <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
@@ -68,9 +68,9 @@ indexPhotosLayout inner = [hsx|
             </h1>
        </div>
 
-        <script>
+<!--    <script>
             Fancybox.bind("[data-fancybox]", {});
-        </script>
+        </script>-->
         <script src={assetPath "/photos.js"}></script>
     </body>
 
