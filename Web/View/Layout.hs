@@ -45,32 +45,8 @@ indexPhotosLayout inner = [hsx|
     </head>
 
     <body class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 <!--opacity-0--> animate-fade-in transition duration-500">
-
-        <header class="flex w-full overflow-hidden pt-10 pb-1">
-            <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
-                <div class="mr-4 md:mr-8">
-                    <a class="text-2xl font-signika font-bold" href="/">ALEXANDER ECKINGER</a>
-                </div>
-            </div>
-        </header>
-
-
-        <div class="container mx-auto">
-            <h1 class="pt-10 pb-8">
-                <section class="text-neutral-700">
-                    <div class="container w-full">
-                        <div class="flex flex-wrap w-full">
-                            {renderFlashMessages}
-                            {inner}
-                        </div>
-                    </div>
-                </section>
-            </h1>
-       </div>
-
-<!--    <script>
-            Fancybox.bind("[data-fancybox]", {});
-        </script>-->
+        {renderFlashMessages}
+        {inner}
         <script src={assetPath "/photos.js"}></script>
     </body>
 

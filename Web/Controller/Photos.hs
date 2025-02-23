@@ -6,6 +6,8 @@ import           Web.View.Photos.Edit
 import           Web.View.Photos.Index
 import           Web.View.Photos.New
 import           Web.View.Photos.Show
+import           System.Process
+import           Data.Text
 
 instance Controller PhotosController where
   beforeAction = do
@@ -60,3 +62,11 @@ instance Controller PhotosController where
 buildPhoto photo = photo
   |> fill @'["photoDate", "caption", "photoUrl"]
   |> validateField #photoDate nonEmpty
+
+getDateFromPhoto :: String -> IO Text
+getDateFromPhoto photoUrl = do
+    date <- readProcess exiftoolCmd [] photoUrl
+    pure $ pack date
+        where
+            exiftoolCmd = "exiftool -DateTimeOriginal -d %Y-%m-%d -p '$DateTimeOriginal'"
+    
