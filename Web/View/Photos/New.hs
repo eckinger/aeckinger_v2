@@ -1,6 +1,9 @@
 module Web.View.Photos.New where
 import Web.View.Prelude
 import Text.Blaze.Html4.FrameSet (input)
+import           System.Process
+import           Data.Text
+import           Data.Time
 
 data NewView = NewView { photo :: Photo }
 
@@ -18,7 +21,6 @@ instance View NewView where
 
 renderForm :: Photo -> Html
 renderForm photo = formFor photo [hsx|
-    {(dateField #photoDate)}
     {(textField #caption)}
 
     <div class="file-upload-wrapper">
@@ -30,7 +32,17 @@ renderForm photo = formFor photo [hsx|
 
         <img id="photoUrlPreview"/>
     </div>
+    {
+        (dateField #photoDate) { placeholder = ""}
+    }
 
     {submitButton}
 
 |]
+
+getDateFromPhoto :: String -> IO Text
+getDateFromPhoto photoUrl = do
+    date <- readProcess exiftoolCmd [] photoUrl
+    pure $ pack date
+        where
+            exiftoolCmd = "exiftool -DateTimeOriginal -d %Y-%m-%d -p '$DateTimeOriginal'"
