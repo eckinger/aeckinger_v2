@@ -127,6 +127,7 @@ metaTags :: Html
 metaTags = [hsx|
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="robots" content="noindex, nofollow"/>
     <meta property="og:title" content="App"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="TODO"/>
