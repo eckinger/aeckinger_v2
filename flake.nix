@@ -58,6 +58,14 @@
                 };
 
 
+            packages.optimized-prod-server-with-frontend = self.packages."${system}".optimized-prod-server.overrideAttrs (finalAttrs: previousAttrs: {
+                name = "${previousAttrs.name}-with-frontend";
+                nativeBuildInputs = previousAttrs.nativeBuildInputs ++ [ self.packages."${system}".frontend ];
+                preBuild = ''
+                    mkdir -p static/Frontend
+                    ln -s ${self.packages."${system}".frontend}/main.css static/Frontend/main.css
+                '';
+            });
 
             packages.appStylesheet =
                 let
@@ -156,6 +164,9 @@
                             # Uncomment to use a custom database URL
                             # databaseUrl = lib.mkForce "postgresql://postgres:...CHANGE-ME";
                         };
+
+                        services.ihp.package = self.packages."${pkgs.system}".optimized-prod-server-with-frontend;
+
                         # Add swap to avoid running out of memory during builds
                         # Useful if your server have less than 4GB memory
                         swapDevices = [ { device = "/swapfile"; size = 8192; } ];
