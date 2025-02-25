@@ -13,7 +13,7 @@
             systems = import systems;
             imports = [ ihp.flakeModules.default ];
 
-            perSystem = { pkgs, ... }: {
+            perSystem = { pkgs, system, config, ... }: {
                 ihp = {
                     # appName = "app"; # Available with v1.4 or latest master
                     enable = true;
@@ -56,7 +56,38 @@
                         tailwind.exec = "tailwindcss -c tailwind/tailwind.config.js -i ./tailwind/app.css -o static/app.css --watch=always";
                     };
                 };
+
+
+
+            packages.applyStylesheet =
+                let
+                    tailwind = with pkgs; (nodePackages.tailwindcss.overrideAttrs
+                        (_: {
+                            plugins = [
+                                nodePackages."@tailwindcss/aspect-ratio"
+                                nodePackages."@tailwindcss/forms"
+                                nodePackages."@tailwindcss/language-server"
+                                                                                          nodePackages."@tailwindcss/line-clamp"
+                                nodePackages."@tailwindcss/typography"
+                                ];
+                        })
+                    );
+                    filter = ihp.inputs.nix-filter.lib;
+                in pkgs.stdenv.mkDerivation {
+                    name = "${config.ihp.appName}-appStylesheet";
+                    src = filter {
+                        root = ./tailwind;
+                        include = [(filter.matchExt "css") (filter.matchExt "js")];
+                        exlude = [];
+                    };
+                    nativeBuildInputs = [tailwind];
+                    allowedReferences = [];
+                    buildPhase = ''
+                        ${tailwind}/bin/tailwindcss -c tailwind.config.js -i app.css -o $out
+                    '';
+                };
             };
+
 
             # Adding the new NixOS configuration for "qa"
             # See https://ihp.digitallyinduced.com/Guide/deployment.html#deploying-with-deploytonixos for more info
