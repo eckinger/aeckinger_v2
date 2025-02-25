@@ -43,6 +43,7 @@
                         # Uncomment on local development for testing
                         # hspec
                     ];
+
                 };
 
                 # Custom configuration that will start with `devenv up`
@@ -58,12 +59,11 @@
                 };
 
 
-            packages.optimized-prod-server-with-frontend = self.packages."${system}".optimized-prod-server.overrideAttrs (finalAttrs: previousAttrs: {
-                name = "${previousAttrs.name}-with-frontend";
-                nativeBuildInputs = previousAttrs.nativeBuildInputs ++ [ self.packages."${system}".frontend ];
+            packages.optimized-prod-server-with-appStylesheet = self.packages."${system}".optimized-prod-server.overrideAttrs (finalAttrs: previousAttrs: {
+                name = "${previousAttrs.name}-with-appStylesheet";
+                nativeBuildInputs = previousAttrs.nativeBuildInputs ++ [ self.packages."${system}".appStylesheet ];
                 preBuild = ''
-                    mkdir -p static/Frontend
-                    ln -s ${self.packages."${system}".frontend}/main.css static/Frontend/main.css
+                    ln -s ${self.packages."${system}".appStylesheet}/app.css static/app.css
                 '';
             });
 
@@ -79,18 +79,23 @@
                                 ];
                         })
                     );
-                    filter = ihp.inputs.nix-filter.lib;
+                    #filter = ihp.inputs.nix-filter.lib;
                 in pkgs.stdenv.mkDerivation {
                     name = "appStylesheet";# "${config.ihp.appName}-appStylesheet";
-                    src = filter {
-                        root = ./tailwind;
-                        include = [(filter.matchExt "css") (filter.matchExt "js")];
-                        exclude = [];
-                    };
+                    src = ./.;#filter {
+                        #root = ./tailwind;
+                        #include = [(filter.matchExt "css") (filter.matchExt "js")];
+                        #exclude = [];
+                    #};
                     nativeBuildInputs = [tailwind];
                     allowedReferences = [];
                     buildPhase = ''
-                        ${tailwind}/bin/tailwindcss -c tailwind.config.js -i app.css -o $out
+                        mkdir -p ./static
+                        ${tailwind}/bin/tailwindcss -c tailwind/tailwind.config.js -i ./tailwind/app.css -o static/app.css
+                    '';
+                    installPhase = ''
+                        mkdir -p $out/static
+                        cp ./static/app.css $out/static/app.css
                     '';
                 };
             };
@@ -165,11 +170,11 @@
                             # databaseUrl = lib.mkForce "postgresql://postgres:...CHANGE-ME";
                         };
 
-                        services.ihp.package = self.packages."${pkgs.system}".optimized-prod-server-with-frontend;
+                        services.ihp.package = self.packages."${pkgs.system}".optimized-prod-server-with-appStylesheet;
 
                         # Add swap to avoid running out of memory during builds
                         # Useful if your server have less than 4GB memory
-                        swapDevices = [ { device = "/swapfile"; size = 8192; } ];
+                        # swapDevices = [ { device = "/swapfile"; size = 8192; } ];
                         # As we use a pre-built AMI on AWS,
                         # it is essential to enable automatic updates.
                         # @see https://nixos.wiki/wiki/Automatic_system_upgrades
