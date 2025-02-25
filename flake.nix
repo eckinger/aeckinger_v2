@@ -73,7 +73,7 @@
                     );
                     filter = ihp.inputs.nix-filter.lib;
                 in pkgs.stdenv.mkDerivation {
-                    name = "${config.ihp.appName}-appStylesheet";
+                    name = "appStylesheet";# "${config.ihp.appName}-appStylesheet";
                     src = filter {
                         root = ./tailwind;
                         include = [(filter.matchExt "css") (filter.matchExt "js")];
