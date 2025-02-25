@@ -63,7 +63,7 @@
             # Used to deploy the IHP application to AWS.
             #
             # Change the `CHANGE-ME` to your correct config.
-            flake.nixosConfigurations."qa" = nixpkgs.lib.nixosSystem {
+            flake.nixosConfigurations."aeckinger.com" = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
                 specialArgs = inputs;
                 modules = [
@@ -77,15 +77,15 @@
                         };
 
                         # Enable the Let's encrypt certificate
-                        security.acme.defaults.email = "CHANGE-ME@example.com";
+                        security.acme.defaults.email = "alexandereckinger@gmail.com";
 
                         # Accept the terms of service of the Let's encrypt provider.
                         security.acme.acceptTerms = true;
 
                         services.nginx = {
-                            virtualHosts."CHANGE-ME.com" =  {
+                            virtualHosts."aeckinger.com" =  {
                                 # Uncomment to have http auth with username `foo` and password `bar`.
-                                # basicAuth = { foo = "bar"; };
+                                basicAuth = { foo = "bar"; };
                             };
                         };
 
@@ -118,31 +118,17 @@
                         # };
 
                         services.ihp = {
-                            domain = "CHANGE-ME.com";
+                            domain = "aeckinger.com";
                             migrations = ./Application/Migration;
                             schema = ./Application/Schema.sql;
                             fixtures = ./Application/Fixtures.sql;
-                            sessionSecret = "CHANGE-ME";
+                            sessionSecret = "xxx";
                             # Uncomment to use a custom database URL
                             # databaseUrl = lib.mkForce "postgresql://postgres:...CHANGE-ME";
-
-                            additionalEnvVars = {
-                                # Uncomment to use a custom session secret, ensuring sessions aren't invalidated
-                                # on each deploy.
-                                # Learn how to create the secret key in https://ihp.digitallyinduced.com/Guide/deployment.html#ihpsessionsecret
-                                # IHP_SESSION_SECRET = "CHANGE-ME";
-
-                                SMTP_HOST = "email-smtp.eu-west-1.amazonaws.com";
-                                SMTP_PORT = "587";
-                                SMTP_ENCRYPTION = "STARTTLS";
-
-                                SMTP_USER = "CHANGE-ME";
-                                SMTP_PASSWORD = "CHANGE-ME";
-
-                                AWS_ACCESS_KEY_ID = "CHANGE-ME";
-                                AWS_SECRET_ACCESS_KEY = "CHANGE-ME";
-                            };
                         };
+                        # Add swap to avoid running out of memory during builds
+                        # Useful if your server have less than 4GB memory
+                        swapDevices = [ { device = "/swapfile"; size = 8192; } ];
                         # As we use a pre-built AMI on AWS,
                         # it is essential to enable automatic updates.
                         # @see https://nixos.wiki/wiki/Automatic_system_upgrades
