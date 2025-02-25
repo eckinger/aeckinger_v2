@@ -59,7 +59,7 @@
 
 
 
-            packages.applyStylesheet =
+            packages.appStylesheet =
                 let
                     tailwind = with pkgs; (nodePackages.tailwindcss.overrideAttrs
                         (_: {
@@ -67,7 +67,6 @@
                                 nodePackages."@tailwindcss/aspect-ratio"
                                 nodePackages."@tailwindcss/forms"
                                 nodePackages."@tailwindcss/language-server"
-                                                                                          nodePackages."@tailwindcss/line-clamp"
                                 nodePackages."@tailwindcss/typography"
                                 ];
                         })
@@ -78,7 +77,7 @@
                     src = filter {
                         root = ./tailwind;
                         include = [(filter.matchExt "css") (filter.matchExt "js")];
-                        exlude = [];
+                        exclude = [];
                     };
                     nativeBuildInputs = [tailwind];
                     allowedReferences = [];
