@@ -13,6 +13,7 @@ config = do
     option Development
     option (AppHostname "localhost")
 
+    initStaticDirStorage
     -- Tailwind
     option customTailwind
     pure ()
